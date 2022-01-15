@@ -42,8 +42,13 @@ function History() {
 	}, [alias]);
 
 	return (
-		<div>
-			<h1>Historial de juego</h1>
+		<div className='flex h-screen justify-center items-center text-3xl'>
+			<button
+				onClick={() => navigate('/')}
+				className='menuItems text-3xl font-semibold'
+			>
+				Proximamente...
+			</button>
 		</div>
 	);
 }

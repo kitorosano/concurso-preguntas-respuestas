@@ -94,7 +94,7 @@ function Game() {
     })
 
 		// guardar historial
-    
+
 
 		// cerrar modales
 		setRespuestaCorrecta(false);
@@ -103,7 +103,6 @@ function Game() {
 		// navigate
 		return navigate('/');
 	};
-
 	return (
 		<div>
 			{cargandoRonda ? (
