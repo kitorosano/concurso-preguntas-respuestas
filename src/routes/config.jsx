@@ -28,7 +28,7 @@ function Config() {
 		setCategoria(Number(e.target.value));
 	};
 
-	// Funcion para guardar en FIREBASE la pregunta
+	// Funcion para guardar en FIREBASE la NUEVA pregunta
 	const crearPregunta = async (e) => {
 		e.preventDefault();
 		if (loading) return; //prevenir spam de click
@@ -56,17 +56,14 @@ function Config() {
 		// Crear pregunta y agregarla a la firestore bajo la coleccion de categoria correspondiente
 		try {
 			const aliasID = await idFromAlias(alias);
-			const docRef = await addDoc(
-				collection(db, 'jugadores', aliasID, 'preguntas'),
-				{
-					p: preguntaValue,
-					resC: respuestaCValue,
-					resI1: respuestaI1Value,
-					resI2: respuestaI2Value,
-					resI3: respuestaI3Value,
-					cat: categoria,
-				}
-			);
+			await addDoc(collection(db, 'jugadores', aliasID, 'preguntas'), {
+				p: preguntaValue,
+				resC: respuestaCValue,
+				resI1: respuestaI1Value,
+				resI2: respuestaI2Value,
+				resI3: respuestaI3Value,
+				cat: categoria,
+			});
 			alert('Se ha agregado la pregunta correctamente!');
 		} catch (err) {
 			console.log(err);
@@ -243,9 +240,12 @@ function Config() {
 					</div>
 				</div>
 			</form>
-
+              {/* Volver al menu */}
 			<div className='flex justify-start mx-10'>
-				<button onClick={() => navigate('/')} className='menuItems text-xl font-semibold'>
+				<button
+					onClick={() => navigate('/')}
+					className='menuItems text-xl font-semibold'
+				>
 					Volver
 				</button>
 			</div>

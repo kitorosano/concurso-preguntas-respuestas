@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './index.css';
+import App from './App';
+
 import Game from './routes/game';
 import Config from './routes/config';
 import History from './routes/history.jsx';

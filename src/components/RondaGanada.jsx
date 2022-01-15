@@ -1,6 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { doc, getDoc } from 'firebase/firestore';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useRef } from 'react';
 function RondaGanada({
 	respuestaCorrecta,
 	rondaActual,
@@ -8,7 +7,6 @@ function RondaGanada({
 	salirJuego,
 }) {
 	let siguienteBtnRef = useRef(null);
-
 
 	return (
 		<Transition.Root show={respuestaCorrecta} as={Fragment}>

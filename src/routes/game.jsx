@@ -1,17 +1,15 @@
 import Ronda from '../components/Ronda';
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { rondaState } from '../atoms/rondaAtom';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import {
 	collection,
-	collectionGroup,
 	doc,
 	getDoc,
 	getDocs,
-	query,
-  updateDoc,
+	updateDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import RondaGanada from '../components/RondaGanada';
@@ -41,6 +39,7 @@ function Game() {
 		// de no haber un jugador nos volvemos al menu
 		else salirJuego();
 
+    // Obtenemos todas las preguntas y las ordenamos por categoria
 		(async () => {
 			const aliasID = await idFromAlias(alias);
 			const preguntas = await getDocs(
@@ -52,6 +51,7 @@ function Game() {
 				categorias[doc.data().cat - 1]?.push(doc.data());
 			});
 
+      // De cada categoria elegimos una al azar, y guardamos esas 5 en el state para este nuevo juego
 			const preguntasRandom = categorias.map(
 				(cat, i) => cat[Math.floor(Math.random() * cat.length)]
 			);
@@ -81,30 +81,32 @@ function Game() {
 		setRespuestaCorrecta(false);
 	};
 
+  // Volver al menu principal, mientras guarda el acumulado en el server
 	const salirJuego = async () => {
-    setCargandoRonda(true)
+		setCargandoRonda(true);
 
-    // guardar acumulado
-    const aliasID = await idFromAlias(alias);
-    const jugador = await getDoc(doc(db, 'jugadores', aliasID));
-    const puntajeTotal = jugador.data()?.Acumulado;
+		// guardar acumulado
+		const aliasID = await idFromAlias(alias);
+		const jugador = await getDoc(doc(db, 'jugadores', aliasID));
+		const puntajeTotal = jugador.data()?.Acumulado;
 
-    await updateDoc(doc(db, 'jugadores', aliasID),{
-      Acumulado: puntajeTotal + puntajeJuego
-    })
+		await updateDoc(doc(db, 'jugadores', aliasID), {
+			Acumulado: puntajeTotal + puntajeJuego,
+		});
 
 		// guardar historial
-
+		// proximamente...
 
 		// cerrar modales
 		setRespuestaCorrecta(false);
-    
-    setCargandoRonda(false)
+
+		setCargandoRonda(false);
 		// navigate
 		return navigate('/');
 	};
 	return (
 		<div>
+      {/* SPINNER MIENTRAS CARGAN LAS RONDAS  */}
 			{cargandoRonda ? (
 				<div className='flex h-screen flex-1 justify-center items-center text-center'>
 					<TailSpin arialLabel='loading-indicator' color='grey' />

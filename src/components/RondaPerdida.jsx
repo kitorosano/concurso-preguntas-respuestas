@@ -1,6 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 function RondaPerdidas({ respuestaIncorrecta, setRespuestaIncorrecta, salirJuego }) {
 	return (

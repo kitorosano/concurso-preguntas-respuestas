@@ -3,7 +3,7 @@ import { db } from '../firebase';
 
 const idFromAlias = async (searchAlias) => {
 	// Asegura que no sea texto vacio
-	if (searchAlias.trim().length == 0) return;
+	if (searchAlias.trim().length === 0) return;
 
 	// obtengo la coleccion de jugadores cuyos alias coincidan con el que necesito
 	const jugadores = await getDocs(

@@ -1,6 +1,4 @@
-import { CurrencyDollarIcon, PauseIcon } from '@heroicons/react/outline';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { temporizadorState } from '../atoms/temporizadorAtom';
 

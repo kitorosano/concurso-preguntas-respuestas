@@ -6,9 +6,9 @@ import { rondaState } from './atoms/rondaAtom';
 import { db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { CurrencyDollarIcon } from '@heroicons/react/outline';
-import idFromAlias from './utils/idFromAlias';
 import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import idFromAlias from './utils/idFromAlias';
 
 function App() {
 	const aliasRef = useRef();
@@ -18,25 +18,24 @@ function App() {
 	const [cargando, setCargando] = useState(true);
 
 	useEffect(() => {
-		// verificar alias en el localstorage
+		// Comprobar que haya un alias como prueba de jugador para el almacenamiento de datos.
 		const localAlias = localStorage.getItem('alias');
 		if (localAlias) setAlias(localAlias);
 
-		// self invoking async function
+		// Cargar acumulado total de la base de datos para mostrarlo en el menu
 		(async () => {
 			setCargando(true);
-			// CARGAR ACUMULADO ACTUAL
 			const aliasID = await idFromAlias(alias);
 			const jugador = await getDoc(doc(db, 'jugadores', aliasID));
 			setPuntajeActual(jugador.data()?.Acumulado);
 			setCargando(false);
 		})();
 
-		// query(doc(db, 'jugadores'), where('id', '==', uid)),
-		// setPuntajeActual()
+    // Dejar pronta la ronda 1
 		setRondaActual(1);
 	}, [alias]);
 
+  // Handler cuando se le da click al boton 'Entrar' luego de poner un Alias
 	const entrar = () => {
 		const newAlias = aliasRef.current.value.trim();
 		// Si el alias es valido, guardarlo en el localstorage y en su state
@@ -48,7 +47,7 @@ function App() {
 	};
 
 	return (
-		<>
+		<> {/**SI NO HAY UN ALIAS, MOSTRAR LA PANTALLA PARA COLOCAR UNO */}
 			{!alias.trim() ? (
 				<div className='flex flex-col min-h-screen justify-center items-center text-3xl font-semibold'>
 					<input
@@ -64,7 +63,8 @@ function App() {
 					</button>
 				</div>
 			) : (
-				<div className='flex flex-col min-h-screen justify-center items-center text-3xl font-semibold space-y-10'>
+        <div className='flex flex-col min-h-screen justify-center items-center text-3xl font-semibold space-y-10'>
+          {/**SI HAY UN ALIAS, MOSTRAR EL MENU PRINCIPAL */}
 					<div className='menuItems'>
 						<Link to='/game'>Iniciar</Link>
 					</div>
@@ -74,6 +74,7 @@ function App() {
 					<div className='menuItems'>
 						<Link to='/history'>Historial</Link>
 					</div>
+          {/* AL MOMENTO DE CARGA, MOSTRAR UN SPINNER LOADING */}
 					{cargando ? (
 						<TailSpin arialLabel='loading-indicator' color='grey' />
 					) : (
